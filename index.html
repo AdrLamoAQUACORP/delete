@@ -304,7 +304,7 @@
         <div class="micro">NODE: 04-09 / TRACE: ACTIVE</div>
         <p class="eyebrow">Запланированная отправка сигнала</p>
         <h1 class="glitch" data-text="04.09">04.09</h1>
-        <p class="date">04.09 // 18:00 МСК</p>
+        <p class="date">04.09 // 21:00 МСК</p>
 
         <div class="rule"></div>
 
@@ -315,7 +315,7 @@
           <div class="unit"><span class="num" id="seconds">00</span><span class="label">seconds</span></div>
         </div>
 
-        <div class="access-open">СИГНАЛ ОТПРАВЛЕН // КАНАЛ ОТКРЫТ</div>
+        <div class="access-open">СИГНАЛ ВЫРВАЛСЯ ЗА ПРЕДЕЛЫ КОНТУРА // ОКРУЖЕНИЕ БУДЕТ РАЗРУШЕНО</div>
 
         <div class="message">
           <span id="systemMessage">[SYSTEM] сигнал отправлен 3 сентября 235 о.р // доставка назначена на 4 сентября 452 о.р</span><span class="cursor"></span>
@@ -333,9 +333,9 @@
   <script>
     /*
       МЕНЯТЬ ДАТУ/ВРЕМЯ ЗДЕСЬ.
-      Сейчас таймер установлен на 04.09.2026, 18:00, МСК (UTC+03:00).
+      Сейчас таймер установлен на 04.09.2026, 21:00, МСК (UTC+03:00).
     */
-    const TARGET_DATE = new Date("2026-09-04T18:00:00+03:00").getTime();
+    const TARGET_DATE = new Date("2026-09-04T21:00:00+03:00").getTime();
 
     const terminal = document.getElementById("terminal");
     const msg = document.getElementById("systemMessage");
@@ -344,7 +344,9 @@
       "[SYSTEM] сигнал отправлен 3 сентября 235 о.р.",
       "[ROUTE] точка получения: 4 сентября 452 о.р.",
       "[STATUS] запланированная отправка сигнала.",
-      "[CHANNEL] удержание соединения до 18:00 МСК.",
+      "[CHANNEL] удержание соединения до 21:00 МСК.",
+      "[WARNING] после 21:00 удержание сигнала станет невозможным.",
+      "[CRITICAL] при прорыве контура сигнал разрушит всё окружение.",
       "[TRACE] маршрут передачи зашифрован.",
       "[SIGNAL] источник идентифицирован частично."
     ];
@@ -357,7 +359,7 @@
 
       if(diff <= 0){
         terminal.classList.add("open");
-        msg.textContent = "[SYSTEM] передача завершена. сигнал доставлен 4 сентября 452 о.р.";
+        msg.textContent = "[CRITICAL] 21:00 достигнуто. сигнал вырвался за пределы контура и разрушает всё окружение.";
         return;
       }
 
