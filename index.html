@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#050607" />
-  <title>AKWAOS // 04.09</title>
+  <title>AKWAOS
   <style>
     :root{
       --bg:#050607;
@@ -279,8 +279,6 @@
       letter-spacing:.15em;
     }
 
-
-
     html, body, body *{
       user-select:none;
       -webkit-user-select:none;
@@ -313,7 +311,6 @@
       50%{transform:translate(-1px,1px)}
       75%{transform:translate(1px,0)}
     }
-
 
     .easter-word{
       position:fixed;
@@ -367,7 +364,7 @@
 
   <main class="screen">
     <header class="topbar">
-      <span>AKWAOS // SECURE ARCHIVE</span>
+      <span>AKWAOS
       <span class="status"><i class="dot"></i> connection unstable</span>
     </header>
 
@@ -376,7 +373,7 @@
         <div class="micro">NODE: 04-09 / TRACE: ACTIVE</div>
         <p class="eyebrow">Запланированная отправка сигнала</p>
         <h1 class="glitch" data-text="04.09">04.09</h1>
-        <p class="date">04.09 // 21:00 МСК</p>
+        <p class="date">04.09
 
         <div class="rule"></div>
 
@@ -387,10 +384,10 @@
           <div class="unit"><span class="num" id="seconds">00</span><span class="label">seconds</span></div>
         </div>
 
-        <div class="access-open">СИГНАЛ ВЫРВАЛСЯ ЗА ПРЕДЕЛЫ КОНТУРА // ОКРУЖЕНИЕ БУДЕТ РАЗРУШЕНО</div>
+        <div class="access-open">СИГНАЛ ВЫРВАЛСЯ ЗА ПРЕДЕЛЫ КОНТУРА
 
         <div class="message">
-          <span id="systemMessage">[SYSTEM] сигнал отправлен 3 сентября 235 о.р // доставка назначена на 4 сентября 452 о.р</span><span class="cursor"></span>
+          <span id="systemMessage">[SYSTEM] сигнал отправлен 3 сентября 235 о.р
         </div>
       </div>
     </section>
@@ -398,15 +395,12 @@
     <footer class="bottombar">
       <span>signal encrypted</span>
       <span>unauthorized duplication prohibited</span>
-      <span>session // 626</span>
+      <span>session
     </footer>
   </main>
 
   <script>
-    /*
-      МЕНЯТЬ ДАТУ/ВРЕМЯ ЗДЕСЬ.
-      Сейчас таймер установлен на 04.09.2026, 21:00, МСК (UTC+03:00).
-    */
+    
     const TARGET_DATE = new Date("2026-09-04T21:00:00+03:00").getTime();
 
     const terminal = document.getElementById("terminal");
@@ -467,8 +461,6 @@
       msg.textContent = messages[i];
     }, 4300);
 
-
-
     document.addEventListener("selectstart", (event) => {
       event.preventDefault();
     });
@@ -477,7 +469,6 @@
       event.preventDefault();
     });
 
-    // Пасхалка: 5 быстрых нажатий в любом месте страницы.
     const easterWord = document.getElementById("easterWord");
     const easterWords = ["НЕНАВИЖУ", "ЛЮДИ", "УМРИТЕ"];
     let easterTaps = [];
@@ -489,7 +480,6 @@
       document.body.classList.remove("easter-flicker");
       easterWord.classList.remove("show");
 
-      // Принудительно перезапускаем CSS-анимацию даже при повторном срабатывании.
       void easterWord.offsetWidth;
 
       document.body.classList.add("easter-flicker");
@@ -505,7 +495,6 @@
     function registerEasterTap(){
       const now = Date.now();
 
-      // Считаем любые 5 нажатий за последние 2,4 секунды.
       easterTaps = easterTaps.filter(time => now - time <= 2400);
       easterTaps.push(now);
 
@@ -515,7 +504,6 @@
       }
     }
 
-    // Слушаем всю страницу, без скрытой кнопки и без перекрывающего слоя.
     if(window.PointerEvent){
       document.addEventListener("pointerdown", registerEasterTap, true);
     } else {
