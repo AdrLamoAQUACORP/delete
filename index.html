@@ -290,10 +290,9 @@
 
     .easter-hotspot{
       position:fixed;
-      top:70px;
-      right:28px;
-      width:90px;
-      height:90px;
+      inset:0;
+      width:100vw;
+      height:100vh;
       z-index:50;
       opacity:0;
       cursor:default;
@@ -498,7 +497,7 @@
       event.preventDefault();
     });
 
-    // Пасхалка: 5 быстрых нажатий по скрытой зоне в правом верхнем углу.
+    // Пасхалка: 5 быстрых нажатий в любом месте страницы.
     const easterHotspot = document.getElementById("easterHotspot");
     const easterWord = document.getElementById("easterWord");
     const easterWords = ["НЕНАВИЖУ", "ЛЮДИ", "УМРИТЕ"];
