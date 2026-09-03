@@ -300,6 +300,8 @@
       user-select:none;
       -webkit-user-select:none;
       -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
+      pointer-events:auto;
       background:transparent;
       border:0;
       color:transparent;
@@ -380,7 +382,7 @@
   </style>
 </head>
 <body>
-  <button class="easter-hotspot" id="easterHotspot" aria-label=" " tabindex="-1"></button>
+  <button type="button" class="easter-hotspot" id="easterHotspot" aria-label=" " tabindex="-1"></button>
   <div class="easter-word" id="easterWord" aria-hidden="true"></div>
   <div class="noise"></div>
 
@@ -500,31 +502,44 @@
     const easterHotspot = document.getElementById("easterHotspot");
     const easterWord = document.getElementById("easterWord");
     const easterWords = ["НЕНАВИЖУ", "ЛЮДИ", "УМРИТЕ"];
-    let easterClicks = [];
+    let easterTapCount = 0;
+    let easterLastTap = 0;
 
-    easterHotspot.addEventListener("click", () => {
-      const now = Date.now();
-      easterClicks = easterClicks.filter(t => now - t < 1200);
-      easterClicks.push(now);
+    function triggerEasterEgg(){
+      const randomWord = easterWords[Math.floor(Math.random() * easterWords.length)];
+      easterWord.textContent = randomWord;
 
-      if(easterClicks.length >= 5){
-        easterClicks = [];
+      document.body.classList.remove("easter-flicker");
+      easterWord.classList.remove("show");
+      void document.body.offsetWidth;
 
-        const randomWord = easterWords[Math.floor(Math.random() * easterWords.length)];
-        easterWord.textContent = randomWord;
+      document.body.classList.add("easter-flicker");
+      easterWord.classList.add("show");
 
+      setTimeout(() => {
         document.body.classList.remove("easter-flicker");
         easterWord.classList.remove("show");
-        void document.body.offsetWidth;
+        easterWord.textContent = "";
+      }, 380);
+    }
 
-        document.body.classList.add("easter-flicker");
-        easterWord.classList.add("show");
+    easterHotspot.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
 
-        setTimeout(() => {
-          document.body.classList.remove("easter-flicker");
-          easterWord.classList.remove("show");
-          easterWord.textContent = "";
-        }, 380);
+      const now = Date.now();
+
+      // Если между нажатиями прошло больше 900 мс, серия начинается заново.
+      if(now - easterLastTap > 900){
+        easterTapCount = 0;
+      }
+
+      easterLastTap = now;
+      easterTapCount += 1;
+
+      if(easterTapCount >= 5){
+        easterTapCount = 0;
+        easterLastTap = 0;
+        triggerEasterEgg();
       }
     });
 
