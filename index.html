@@ -279,6 +279,95 @@
       letter-spacing:.15em;
     }
 
+
+
+    html, body, body *{
+      user-select:none;
+      -webkit-user-select:none;
+      -ms-user-select:none;
+      -webkit-touch-callout:none;
+    }
+
+    .easter-hotspot{
+      position:fixed;
+      top:70px;
+      right:28px;
+      width:90px;
+      height:90px;
+      z-index:50;
+      opacity:0;
+      cursor:default;
+      user-select:none;
+      -webkit-user-select:none;
+      -webkit-tap-highlight-color:transparent;
+      background:transparent;
+      border:0;
+      color:transparent;
+      padding:0;
+    }
+
+    body.easter-flicker{
+      animation:easterFlicker .34s steps(2,end);
+    }
+
+    body.easter-flicker .screen{
+      animation:easterShift .34s steps(2,end);
+    }
+
+    @keyframes easterFlicker{
+      0%{filter:none; opacity:1}
+      12%{filter:brightness(1.8) contrast(1.15); opacity:.7}
+      24%{filter:brightness(.45) contrast(1.4); opacity:.94}
+      38%{filter:brightness(1.45); opacity:.78}
+      52%{filter:none; opacity:1}
+      68%{filter:brightness(.7) contrast(1.25); opacity:.86}
+      82%{filter:brightness(1.25); opacity:.95}
+      100%{filter:none; opacity:1}
+    }
+
+    @keyframes easterShift{
+      0%,100%{transform:translate(0,0)}
+      25%{transform:translate(1px,-1px)}
+      50%{transform:translate(-1px,1px)}
+      75%{transform:translate(1px,0)}
+    }
+
+
+    .easter-word{
+      position:fixed;
+      inset:0;
+      z-index:80;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      opacity:0;
+      color:#ff2f3d;
+      font-family:"Courier New",Consolas,monospace;
+      font-size:clamp(42px,9vw,110px);
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-shadow:
+        0 0 8px rgba(255,47,61,.8),
+        0 0 26px rgba(255,47,61,.35);
+      transform:scale(.96);
+    }
+
+    .easter-word.show{
+      animation:easterWordFlash .34s steps(2,end);
+    }
+
+    @keyframes easterWordFlash{
+      0%{opacity:0; transform:scale(.96) translate(0,0)}
+      12%{opacity:1; transform:scale(1.02) translate(2px,-1px)}
+      26%{opacity:.15; transform:scale(.99) translate(-2px,1px)}
+      42%{opacity:1; transform:scale(1.01) translate(1px,0)}
+      58%{opacity:.4; transform:scale(1) translate(-1px,1px)}
+      76%{opacity:1; transform:scale(1.015) translate(0,-1px)}
+      100%{opacity:0; transform:scale(1)}
+    }
+
     @media(max-width:640px){
       .screen{padding:16px}
       .terminal{padding:30px 18px 26px}
@@ -291,6 +380,8 @@
   </style>
 </head>
 <body>
+  <button class="easter-hotspot" id="easterHotspot" aria-label=" " tabindex="-1"></button>
+  <div class="easter-word" id="easterWord" aria-hidden="true"></div>
   <div class="noise"></div>
 
   <main class="screen">
@@ -394,6 +485,48 @@
       i = (i + 1) % messages.length;
       msg.textContent = messages[i];
     }, 4300);
+
+
+
+    document.addEventListener("selectstart", (event) => {
+      event.preventDefault();
+    });
+
+    document.addEventListener("dragstart", (event) => {
+      event.preventDefault();
+    });
+
+    // Пасхалка: 5 быстрых нажатий по скрытой зоне в правом верхнем углу.
+    const easterHotspot = document.getElementById("easterHotspot");
+    const easterWord = document.getElementById("easterWord");
+    const easterWords = ["НЕНАВИЖУ", "ЛЮДИ", "УМРИТЕ"];
+    let easterClicks = [];
+
+    easterHotspot.addEventListener("click", () => {
+      const now = Date.now();
+      easterClicks = easterClicks.filter(t => now - t < 1200);
+      easterClicks.push(now);
+
+      if(easterClicks.length >= 5){
+        easterClicks = [];
+
+        const randomWord = easterWords[Math.floor(Math.random() * easterWords.length)];
+        easterWord.textContent = randomWord;
+
+        document.body.classList.remove("easter-flicker");
+        easterWord.classList.remove("show");
+        void document.body.offsetWidth;
+
+        document.body.classList.add("easter-flicker");
+        easterWord.classList.add("show");
+
+        setTimeout(() => {
+          document.body.classList.remove("easter-flicker");
+          easterWord.classList.remove("show");
+          easterWord.textContent = "";
+        }, 380);
+      }
+    });
 
     document.addEventListener("visibilitychange", () => {
       if(!document.hidden) updateTimer();
