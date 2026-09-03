@@ -288,31 +288,12 @@
       -webkit-touch-callout:none;
     }
 
-    .easter-hotspot{
-      position:fixed;
-      inset:0;
-      width:100vw;
-      height:100vh;
-      z-index:50;
-      opacity:0;
-      cursor:default;
-      user-select:none;
-      -webkit-user-select:none;
-      -webkit-tap-highlight-color:transparent;
-      touch-action:manipulation;
-      pointer-events:auto;
-      background:transparent;
-      border:0;
-      color:transparent;
-      padding:0;
-    }
-
     body.easter-flicker{
-      animation:easterFlicker .34s steps(2,end);
+      animation:easterFlicker .68s steps(2,end);
     }
 
     body.easter-flicker .screen{
-      animation:easterShift .34s steps(2,end);
+      animation:easterShift .68s steps(2,end);
     }
 
     @keyframes easterFlicker{
@@ -356,7 +337,7 @@
     }
 
     .easter-word.show{
-      animation:easterWordFlash .34s steps(2,end);
+      animation:easterWordFlash .68s steps(2,end);
     }
 
     @keyframes easterWordFlash{
@@ -381,7 +362,6 @@
   </style>
 </head>
 <body>
-  <button type="button" class="easter-hotspot" id="easterHotspot" aria-label=" " tabindex="-1"></button>
   <div class="easter-word" id="easterWord" aria-hidden="true"></div>
   <div class="noise"></div>
 
@@ -498,11 +478,9 @@
     });
 
     // Пасхалка: 5 быстрых нажатий в любом месте страницы.
-    const easterHotspot = document.getElementById("easterHotspot");
     const easterWord = document.getElementById("easterWord");
     const easterWords = ["НЕНАВИЖУ", "ЛЮДИ", "УМРИТЕ"];
-    let easterTapCount = 0;
-    let easterLastTap = 0;
+    let easterTaps = [];
 
     function triggerEasterEgg(){
       const randomWord = easterWords[Math.floor(Math.random() * easterWords.length)];
@@ -510,7 +488,9 @@
 
       document.body.classList.remove("easter-flicker");
       easterWord.classList.remove("show");
-      void document.body.offsetWidth;
+
+      // Принудительно перезапускаем CSS-анимацию даже при повторном срабатывании.
+      void easterWord.offsetWidth;
 
       document.body.classList.add("easter-flicker");
       easterWord.classList.add("show");
@@ -519,28 +499,29 @@
         document.body.classList.remove("easter-flicker");
         easterWord.classList.remove("show");
         easterWord.textContent = "";
-      }, 380);
+      }, 720);
     }
 
-    easterHotspot.addEventListener("pointerdown", (event) => {
-      event.preventDefault();
-
+    function registerEasterTap(){
       const now = Date.now();
 
-      // Если между нажатиями прошло больше 900 мс, серия начинается заново.
-      if(now - easterLastTap > 900){
-        easterTapCount = 0;
-      }
+      // Считаем любые 5 нажатий за последние 2,4 секунды.
+      easterTaps = easterTaps.filter(time => now - time <= 2400);
+      easterTaps.push(now);
 
-      easterLastTap = now;
-      easterTapCount += 1;
-
-      if(easterTapCount >= 5){
-        easterTapCount = 0;
-        easterLastTap = 0;
+      if(easterTaps.length >= 5){
+        easterTaps = [];
         triggerEasterEgg();
       }
-    });
+    }
+
+    // Слушаем всю страницу, без скрытой кнопки и без перекрывающего слоя.
+    if(window.PointerEvent){
+      document.addEventListener("pointerdown", registerEasterTap, true);
+    } else {
+      document.addEventListener("touchstart", registerEasterTap, {capture:true, passive:true});
+      document.addEventListener("mousedown", registerEasterTap, true);
+    }
 
     document.addEventListener("visibilitychange", () => {
       if(!document.hidden) updateTimer();
