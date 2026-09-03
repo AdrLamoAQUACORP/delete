@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050607" />
+  <title>AKWAOS // 04.09</title>
+  <style>
+    :root{
+      --bg:#050607;
+      --panel:rgba(8,12,14,.76);
+      --line:rgba(149,255,214,.18);
+      --text:#d8fff1;
+      --muted:#76a899;
+      --accent:#8dffd5;
+      --danger:#ff4d58;
+      --shadow:0 0 28px rgba(122,255,210,.12);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(44,90,76,.14), transparent 34%),
+        linear-gradient(180deg,#030405 0%,#06090a 100%);
+      color:var(--text);
+      font-family:"Courier New",Consolas,monospace;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.024) 0px,
+          rgba(255,255,255,.024) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      mix-blend-mode:screen;
+      opacity:.35;
+      z-index:10;
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-20%;
+      pointer-events:none;
+      background:radial-gradient(circle, transparent 48%, rgba(0,0,0,.62) 78%);
+      z-index:9;
+    }
+
+    .noise{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.035;
+      z-index:8;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+      animation:noiseShift .18s steps(2) infinite;
+    }
+
+    @keyframes noiseShift{
+      0%{transform:translate(0,0)}
+      25%{transform:translate(-1%,1%)}
+      50%{transform:translate(1%,-1%)}
+      75%{transform:translate(1%,1%)}
+      100%{transform:translate(0,0)}
+    }
+
+    .screen{
+      position:relative;
+      z-index:2;
+      height:100%;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      padding:22px 24px;
+    }
+
+    .topbar,.bottombar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      color:var(--muted);
+      font-size:11px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      opacity:.78;
+    }
+
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .dot{
+      width:7px;height:7px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 12px var(--accent);
+      animation:pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse{
+      0%,100%{opacity:.28}
+      50%{opacity:1}
+    }
+
+    .center{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px 0;
+    }
+
+    .terminal{
+      width:min(880px,92vw);
+      position:relative;
+      padding:42px 42px 38px;
+      border:1px solid var(--line);
+      background:
+        linear-gradient(180deg,rgba(8,13,15,.84),rgba(4,7,8,.68));
+      box-shadow:var(--shadow), inset 0 0 30px rgba(112,255,205,.025);
+      backdrop-filter:blur(4px);
+    }
+
+    .terminal::before,
+    .terminal::after{
+      content:"";
+      position:absolute;
+      width:22px;height:22px;
+      border-color:rgba(149,255,214,.56);
+    }
+    .terminal::before{
+      left:-1px;top:-1px;
+      border-left:1px solid;
+      border-top:1px solid;
+    }
+    .terminal::after{
+      right:-1px;bottom:-1px;
+      border-right:1px solid;
+      border-bottom:1px solid;
+    }
+
+    .eyebrow{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+    }
+
+    .glitch{
+      position:relative;
+      margin:0;
+      font-size:clamp(42px,8vw,94px);
+      line-height:.92;
+      font-weight:700;
+      letter-spacing:.035em;
+      text-transform:uppercase;
+      color:var(--text);
+      text-shadow:0 0 20px rgba(123,255,215,.13);
+    }
+
+    .glitch::before,.glitch::after{
+      content:attr(data-text);
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:0;
+    }
+
+    .terminal.alert .glitch::before{
+      color:#ff4d58;
+      transform:translate(3px,-1px);
+      clip-path:inset(12% 0 62% 0);
+      opacity:.42;
+    }
+    .terminal.alert .glitch::after{
+      color:#7fffe1;
+      transform:translate(-3px,1px);
+      clip-path:inset(65% 0 12% 0);
+      opacity:.35;
+    }
+
+    .date{
+      margin:10px 0 0;
+      color:var(--accent);
+      letter-spacing:.42em;
+      font-size:13px;
+    }
+
+    .rule{
+      height:1px;
+      margin:32px 0 28px;
+      background:linear-gradient(90deg,var(--line),rgba(149,255,214,.03));
+    }
+
+    .countdown{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+
+    .unit{
+      min-width:0;
+      padding:18px 10px 14px;
+      border:1px solid rgba(149,255,214,.10);
+      background:rgba(255,255,255,.012);
+      text-align:center;
+    }
+
+    .num{
+      display:block;
+      font-size:clamp(34px,6vw,66px);
+      line-height:1;
+      letter-spacing:.04em;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .label{
+      display:block;
+      margin-top:9px;
+      color:var(--muted);
+      font-size:9px;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+    }
+
+    .message{
+      min-height:42px;
+      margin-top:26px;
+      color:#7da99c;
+      font-size:11px;
+      line-height:1.7;
+      letter-spacing:.08em;
+    }
+
+    .cursor{
+      display:inline-block;
+      width:8px;height:12px;
+      margin-left:5px;
+      transform:translateY(2px);
+      background:var(--accent);
+      animation:blink .9s steps(1) infinite;
+    }
+
+    @keyframes blink{50%{opacity:0}}
+
+    .access-open{
+      display:none;
+      margin-top:24px;
+      padding:14px 16px;
+      border:1px solid rgba(255,77,88,.55);
+      color:#ff7b83;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:12px;
+      box-shadow:0 0 30px rgba(255,77,88,.07);
+    }
+
+    .terminal.open .countdown{display:none}
+    .terminal.open .access-open{display:block}
+    .terminal.open .message{color:#a7bbb5}
+
+    .micro{
+      position:absolute;
+      right:18px;
+      top:15px;
+      font-size:8px;
+      color:rgba(141,255,213,.25);
+      letter-spacing:.15em;
+    }
+
+    @media(max-width:640px){
+      .screen{padding:16px}
+      .terminal{padding:30px 18px 26px}
+      .countdown{gap:5px}
+      .unit{padding:15px 4px 12px}
+      .date{letter-spacing:.26em}
+      .topbar,.bottombar{font-size:8px}
+      .bottombar span:last-child{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+
+  <main class="screen">
+    <header class="topbar">
+      <span>AKWAOS // SECURE ARCHIVE</span>
+      <span class="status"><i class="dot"></i> connection unstable</span>
+    </header>
+
+    <section class="center">
+      <div class="terminal" id="terminal">
+        <div class="micro">NODE: 04-09 / TRACE: ACTIVE</div>
+        <p class="eyebrow">Запланированная отправка сигнала</p>
+        <h1 class="glitch" data-text="04.09">04.09</h1>
+        <p class="date">04.09 // 18:00 МСК</p>
+
+        <div class="rule"></div>
+
+        <div class="countdown" aria-label="Обратный отсчёт">
+          <div class="unit"><span class="num" id="days">00</span><span class="label">days</span></div>
+          <div class="unit"><span class="num" id="hours">00</span><span class="label">hours</span></div>
+          <div class="unit"><span class="num" id="minutes">00</span><span class="label">minutes</span></div>
+          <div class="unit"><span class="num" id="seconds">00</span><span class="label">seconds</span></div>
+        </div>
+
+        <div class="access-open">СИГНАЛ ОТПРАВЛЕН // КАНАЛ ОТКРЫТ</div>
+
+        <div class="message">
+          <span id="systemMessage">[SYSTEM] сигнал отправлен 3 сентября 235 о.р // доставка назначена на 4 сентября 452 о.р</span><span class="cursor"></span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bottombar">
+      <span>signal encrypted</span>
+      <span>unauthorized duplication prohibited</span>
+      <span>session // 626</span>
+    </footer>
+  </main>
+
+  <script>
+    /*
+      МЕНЯТЬ ДАТУ/ВРЕМЯ ЗДЕСЬ.
+      Сейчас таймер установлен на 04.09.2026, 18:00, МСК (UTC+03:00).
+    */
+    const TARGET_DATE = new Date("2026-09-04T18:00:00+03:00").getTime();
+
+    const terminal = document.getElementById("terminal");
+    const msg = document.getElementById("systemMessage");
+
+    const messages = [
+      "[SYSTEM] сигнал отправлен 3 сентября 235 о.р.",
+      "[ROUTE] точка получения: 4 сентября 452 о.р.",
+      "[STATUS] запланированная отправка сигнала.",
+      "[CHANNEL] удержание соединения до 18:00 МСК.",
+      "[TRACE] маршрут передачи зашифрован.",
+      "[SIGNAL] источник идентифицирован частично."
+    ];
+
+    function pad(n){ return String(n).padStart(2,"0"); }
+
+    function updateTimer(){
+      const now = Date.now();
+      let diff = TARGET_DATE - now;
+
+      if(diff <= 0){
+        terminal.classList.add("open");
+        msg.textContent = "[SYSTEM] передача завершена. сигнал доставлен 4 сентября 452 о.р.";
+        return;
+      }
+
+      const days = Math.floor(diff / 86400000);
+      diff %= 86400000;
+      const hours = Math.floor(diff / 3600000);
+      diff %= 3600000;
+      const minutes = Math.floor(diff / 60000);
+      diff %= 60000;
+      const seconds = Math.floor(diff / 1000);
+
+      document.getElementById("days").textContent = pad(days);
+      document.getElementById("hours").textContent = pad(hours);
+      document.getElementById("minutes").textContent = pad(minutes);
+      document.getElementById("seconds").textContent = pad(seconds);
+    }
+
+    setInterval(updateTimer, 250);
+    updateTimer();
+
+    setInterval(() => {
+      if(terminal.classList.contains("open")) return;
+      if(Math.random() > .42){
+        terminal.classList.add("alert");
+        setTimeout(() => terminal.classList.remove("alert"), 110 + Math.random()*170);
+      }
+    }, 1650);
+
+    let i = 0;
+    setInterval(() => {
+      if(terminal.classList.contains("open")) return;
+      i = (i + 1) % messages.length;
+      msg.textContent = messages[i];
+    }, 4300);
+
+    document.addEventListener("visibilitychange", () => {
+      if(!document.hidden) updateTimer();
+    });
+  </script>
+</body>
+</html>
