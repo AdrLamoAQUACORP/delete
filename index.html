@@ -5,230 +5,359 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#050607">
 <meta name="robots" content="noindex,nofollow,noarchive">
-<title>AKWAOS // 04.09</title>
+<title>AKWAOS // STOPPED</title>
 <style>
-:root{--line:rgba(149,255,214,.18);--text:#d8fff1;--muted:#76a899;--accent:#8dffd5;--red:#ff2f3d}
+:root{
+  --bg:#050607;
+  --line:rgba(149,255,214,.18);
+  --text:#d8fff1;
+  --muted:#76a899;
+  --accent:#8dffd5;
+  --red:#ff2f3d;
+}
 *{box-sizing:border-box}
 html,body{height:100%}
-html,body,body *{user-select:none;-webkit-user-select:none;-ms-user-select:none;-webkit-touch-callout:none}
-body{margin:0;overflow:hidden;background:radial-gradient(circle at 50% 42%,rgba(44,90,76,.14),transparent 34%),linear-gradient(180deg,#030405 0%,#06090a 100%);color:var(--text);font-family:"Courier New",Consolas,monospace}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.024) 0,rgba(255,255,255,.024) 1px,transparent 1px,transparent 4px);opacity:.34;z-index:20}
-body::after{content:"";position:fixed;inset:-20%;pointer-events:none;background:radial-gradient(circle,transparent 48%,rgba(0,0,0,.68) 80%);z-index:19}
-.screen{position:relative;z-index:2;height:100%;display:grid;grid-template-rows:auto 1fr auto;padding:22px 24px}
-.topbar,.bottombar{display:flex;align-items:center;justify-content:space-between;gap:16px;color:var(--muted);font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.76}
-.center{display:flex;align-items:center;justify-content:center}
-.terminal{width:min(880px,92vw);position:relative;padding:42px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(8,13,15,.86),rgba(4,7,8,.7));box-shadow:0 0 30px rgba(122,255,210,.09)}
-.eyebrow{margin:0 0 18px;color:var(--muted);font-size:12px;letter-spacing:.26em;text-transform:uppercase}
-.glitch{margin:0;font-size:clamp(44px,8vw,94px);line-height:.95;letter-spacing:.035em}
-.date{margin:10px 0 0;color:var(--accent);letter-spacing:.35em;font-size:13px}
-.rule{height:1px;margin:30px 0 26px;background:linear-gradient(90deg,var(--line),rgba(149,255,214,.03))}
-.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.unit{padding:18px 8px 14px;text-align:center;border:1px solid rgba(149,255,214,.10)}
-.num{display:block;font-size:clamp(34px,6vw,66px);line-height:1;font-variant-numeric:tabular-nums}
-.label{display:block;margin-top:8px;color:var(--muted);font-size:9px;letter-spacing:.18em;text-transform:uppercase}
-.message{margin-top:24px;min-height:44px;color:#7da99c;font-size:11px;line-height:1.7;letter-spacing:.07em}
-.fast .num{color:var(--red);text-shadow:0 0 14px rgba(255,47,61,.35)}
-.fast .date{color:var(--red)}
-.fast{animation:shake .18s steps(2,end) infinite}
-@keyframes shake{0%,100%{transform:translate(0,0)}25%{transform:translate(1px,-1px)}50%{transform:translate(-1px,1px)}75%{transform:translate(1px,0)}}
-.final{display:none;margin-top:26px;padding:16px;border:1px solid rgba(255,47,61,.45);color:var(--red);font-size:15px;letter-spacing:.12em;text-transform:uppercase;line-height:1.7}
-.terminal.done .countdown{display:none}
-.terminal.done .final{display:block}
-
-.speedbox{display:none;margin-top:15px;padding:10px 12px;border:1px solid rgba(255,47,61,.28);color:#ff5965;font-size:10px;letter-spacing:.16em;text-transform:uppercase;align-items:center;justify-content:space-between;gap:14px}
-.fast .speedbox{display:flex;animation:alarmPulse .58s steps(2,end) infinite}
-.speednum{font-size:18px;font-weight:700;text-shadow:0 0 12px rgba(255,47,61,.45)}
-.fast .countdown{animation:timeWarp .42s steps(2,end) infinite}
-.fast .unit{border-color:rgba(255,47,61,.32);box-shadow:inset 0 0 18px rgba(255,47,61,.035)}
-.fast .num{animation:digitWarp .24s steps(2,end) infinite}
-.hackline{display:none;margin-top:10px;color:#ff2f3d;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
-.fast .hackline{display:block;animation:hackBlink 1.1s steps(1,end) infinite}
-@keyframes alarmPulse{0%,100%{opacity:.65}50%{opacity:1}}
-@keyframes timeWarp{0%,100%{transform:translateX(0)}25%{transform:translateX(1px)}50%{transform:translateX(-1px)}75%{transform:translateX(2px)}}
-@keyframes digitWarp{0%,100%{filter:none;transform:translate(0,0)}35%{filter:brightness(1.6);transform:translate(1px,-1px)}65%{filter:blur(.45px);transform:translate(-1px,1px)}}
-@keyframes hackBlink{0%,48%{opacity:.28}49%,100%{opacity:1}}
-.egg{cursor:default}
-.gameveil{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:rgba(2,4,5,.92);backdrop-filter:blur(3px)}
-.gameveil.open{display:flex}
-.game{width:min(640px,92vw);padding:28px;border:1px solid rgba(141,255,213,.22);background:linear-gradient(180deg,rgba(7,12,13,.97),rgba(3,6,7,.98));box-shadow:0 0 40px rgba(141,255,213,.08)}
-.gtitle{color:#8dffd5;font-size:12px;letter-spacing:.2em;text-transform:uppercase}
-.gstatus{min-height:38px;margin:14px 0 18px;color:#7da99c;font-size:11px;line-height:1.6;letter-spacing:.07em}
-.nodes{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.node{height:90px;border:1px solid rgba(141,255,213,.16);background:rgba(255,255,255,.015);color:#7da99c;font-family:inherit;font-size:22px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.node.on{background:rgba(141,255,213,.13);color:#d8fff1;border-color:rgba(141,255,213,.7);box-shadow:0 0 20px rgba(141,255,213,.15)}
-.node.bad{background:rgba(255,47,61,.10);color:#ff5965;border-color:rgba(255,47,61,.55)}
-.lore{display:none;margin-top:20px;padding:16px;border:1px solid rgba(255,47,61,.3);color:#ff6670;font-size:13px;line-height:1.7;letter-spacing:.06em}
-.lore.show{display:block}
-.gclose{margin-top:18px;border:0;background:transparent;color:#5f887d;font:inherit;font-size:9px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
-@media(max-width:640px){.node{height:72px}.game{padding:20px}}
-
-@media(max-width:640px){.screen{padding:16px}.terminal{padding:30px 18px}.topbar,.bottombar{font-size:8px}}
+html,body,body *{
+  user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+  -webkit-touch-callout:none;
+}
+body{
+  margin:0;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(44,90,76,.14),transparent 34%),
+    linear-gradient(180deg,#030405 0%,#06090a 100%);
+  color:var(--text);
+  font-family:"Courier New",Consolas,monospace;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.026) 0,
+    rgba(255,255,255,.026) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity:.38;
+  z-index:30;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:-20%;
+  pointer-events:none;
+  background:radial-gradient(circle,transparent 42%,rgba(0,0,0,.74) 78%);
+  z-index:29;
+}
+.noise{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:28;
+  opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+  animation:noiseMove .15s steps(2) infinite;
+}
+@keyframes noiseMove{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(-1%,1%)}
+  50%{transform:translate(1%,-1%)}
+  75%{transform:translate(1%,1%)}
+  100%{transform:translate(0,0)}
+}
+.screen{
+  position:relative;
+  z-index:2;
+  height:100%;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  padding:22px 24px;
+}
+.topbar,.bottombar{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:center;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  opacity:.74;
+}
+.center{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.terminal{
+  position:relative;
+  width:min(940px,94vw);
+  min-height:440px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:44px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg,rgba(8,13,15,.89),rgba(4,7,8,.72));
+  box-shadow:
+    0 0 40px rgba(122,255,210,.08),
+    inset 0 0 40px rgba(112,255,205,.018);
+  overflow:hidden;
+}
+.terminal::before,.terminal::after{
+  content:"";
+  position:absolute;
+  width:24px;
+  height:24px;
+  border-color:rgba(149,255,214,.56);
+}
+.terminal::before{
+  left:-1px;
+  top:-1px;
+  border-left:1px solid;
+  border-top:1px solid;
+}
+.terminal::after{
+  right:-1px;
+  bottom:-1px;
+  border-right:1px solid;
+  border-bottom:1px solid;
+}
+.stage{
+  position:relative;
+  width:100%;
+  text-align:center;
+}
+.kicker{
+  margin-bottom:22px;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+}
+.word{
+  position:relative;
+  display:inline-block;
+  min-height:1em;
+  font-size:clamp(42px,8vw,100px);
+  line-height:.95;
+  font-weight:700;
+  letter-spacing:.035em;
+  text-transform:uppercase;
+  color:var(--red);
+  text-shadow:
+    0 0 9px rgba(255,47,61,.55),
+    0 0 28px rgba(255,47,61,.22);
+}
+.word::before,
+.word::after{
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+}
+.word.glitch::before{
+  color:#ff6170;
+  transform:translate(4px,-2px);
+  clip-path:inset(8% 0 64% 0);
+  opacity:.65;
+}
+.word.glitch::after{
+  color:#8dffd5;
+  transform:translate(-4px,2px);
+  clip-path:inset(66% 0 8% 0);
+  opacity:.35;
+}
+.word.blink{
+  animation:blinkWord .58s steps(2,end);
+}
+@keyframes blinkWord{
+  0%{opacity:1}
+  12%{opacity:.05}
+  22%{opacity:1}
+  38%{opacity:.22}
+  48%{opacity:1}
+  69%{opacity:.04}
+  82%{opacity:1}
+  100%{opacity:1}
+}
+.word.lag{
+  animation:lagWord .5s steps(2,end);
+}
+@keyframes lagWord{
+  0%{transform:translate(0,0) scale(1)}
+  18%{transform:translate(3px,-1px) scale(1.006)}
+  36%{transform:translate(-2px,2px) scale(.997)}
+  56%{transform:translate(4px,0) scale(1.004)}
+  74%{transform:translate(-1px,-2px)}
+  100%{transform:translate(0,0) scale(1)}
+}
+.statusline{
+  margin-top:30px;
+  min-height:20px;
+  color:#7da99c;
+  font-size:10px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.cursor{
+  display:inline-block;
+  width:8px;
+  height:12px;
+  margin-left:6px;
+  background:var(--accent);
+  transform:translateY(2px);
+  animation:cursorBlink .8s steps(1) infinite;
+}
+@keyframes cursorBlink{50%{opacity:0}}
+.scan{
+  position:absolute;
+  left:0;
+  right:0;
+  top:-4px;
+  height:2px;
+  background:rgba(255,47,61,.32);
+  box-shadow:0 0 14px rgba(255,47,61,.24);
+  animation:scanMove 4.8s linear infinite;
+  pointer-events:none;
+}
+@keyframes scanMove{
+  from{transform:translateY(0)}
+  to{transform:translateY(460px)}
+}
+body.hit{
+  animation:screenHit .44s steps(2,end);
+}
+@keyframes screenHit{
+  0%{filter:none}
+  16%{filter:brightness(1.6) contrast(1.25)}
+  28%{filter:brightness(.5) contrast(1.5)}
+  44%{filter:brightness(1.3)}
+  60%{filter:none}
+  74%{filter:brightness(.72)}
+  100%{filter:none}
+}
+.terminal.hit{
+  animation:terminalShift .44s steps(2,end);
+}
+@keyframes terminalShift{
+  0%,100%{transform:translate(0,0)}
+  18%{transform:translate(3px,-1px)}
+  36%{transform:translate(-4px,1px)}
+  54%{transform:translate(2px,2px)}
+  72%{transform:translate(-1px,-1px)}
+}
+.freeze{
+  position:fixed;
+  inset:0;
+  z-index:40;
+  pointer-events:none;
+  opacity:0;
+  background:
+    linear-gradient(180deg,transparent 0 35%,rgba(255,255,255,.08) 35% 36%,transparent 36% 100%);
+}
+.freeze.show{
+  animation:freezeFrame .18s steps(1,end);
+}
+@keyframes freezeFrame{
+  0%{opacity:0}
+  25%{opacity:.9}
+  55%{opacity:.2}
+  100%{opacity:0}
+}
+@media(max-width:640px){
+  .screen{padding:16px}
+  .terminal{padding:30px 18px;min-height:390px}
+  .topbar,.bottombar{font-size:8px}
+  .bottombar span:last-child{display:none}
+}
 </style>
 </head>
 <body>
-
-<div class="gameveil" id="ДжонРахманова">
-<div class="game">
-<div class="gtitle">TRACE // MEMORY RELAY</div>
-<div class="gstatus" id="ДжонАзимов"></div>
-<div class="nodes">
-<button class="node" data-j="0">A</button>
-<button class="node" data-j="1">K</button>
-<button class="node" data-j="2">W</button>
-<button class="node" data-j="3">A</button>
-</div>
-<div class="lore" id="ДжонСангус"></div>
-<button class="gclose" id="ДжонМэйНо">terminate trace</button>
-</div>
-</div>
+<div class="noise"></div>
+<div class="freeze" id="ДжонГарсия"></div>
 
 <main class="screen">
-<header class="topbar"><span>AKWAOS // SECURE ARCHIVE</span><span id="ДжонХалла">signal scheduled</span></header>
+<header class="topbar">
+  <span>AKWAOS // NODE 04-09</span>
+  <span>signal state: interrupted</span>
+</header>
+
 <section class="center">
-<div class="terminal" id="ДжонГарсия">
-<p class="eyebrow">Запланированная отправка сигнала</p>
-<h1 class="glitch">04.09</h1>
-<p class="date" id="ДжонЛонан"></p>
-<div class="rule"></div>
-<div class="countdown">
-<div class="unit"><span class="num" id="ДжонМэй">00</span><span class="label">days</span></div>
-<div class="unit"><span class="num" id="ДжонВарма">00</span><span class="label">hours</span></div>
-<div class="unit"><span class="num" id="ДжонДанте">00</span><span class="label">minutes</span></div>
-<div class="unit"><span class="num" id="ДжонИксион">00</span><span class="label">seconds</span></div>
-</div>
-<div class="message" id="ДжонТелла">[SYSTEM] сигнал удерживается в очереди передачи.</div><div class="speedbox"><span>temporal acceleration</span><span class="speednum">×4.00</span></div><div class="hackline" id="ДжонРивер"></div>
-<div class="final">[CRITICAL] ОТСЧЁТ ЗАВЕРШЁН РАНЬШЕ РАСЧЁТНОГО ВРЕМЕНИ</div>
-</div>
+  <div class="terminal" id="ДжонОсдейн">
+    <div class="scan"></div>
+    <div class="stage">
+      <div class="kicker">статус изменён</div>
+      <div class="word" id="ДжонУлика" data-text=""></div>
+      <div class="statusline">
+        <span id="ДжонАстери"></span><span class="cursor"></span>
+      </div>
+    </div>
+  </div>
 </section>
-<footer class="bottombar"><span class="egg" id="ДжонРивз">session // 626</span><span>channel unstable</span></footer>
+
+<footer class="bottombar">
+  <span>session // 626</span>
+  <span>transfer interrupted</span>
+  <span>signal containment: active</span>
+</footer>
 </main>
+
 <script>
-const ДжонКейн=ДжонРивз=>String.fromCharCode(...ДжонРивз);
-const ДжонОсдейн=new Date(ДжонКейн([50,48,50,54,45,48,57,45,48,52,84,50,49,58,48,48,58,48,48,43,48,51,58,48,48])).getTime();
-const ДжонУлика=new Date(ДжонКейн([50,48,50,54,45,48,57,45,48,52,84,49,55,58,48,48,58,48,48,43,48,51,58,48,48])).getTime();
-const ДжонАстери=new Date(ДжонКейн([50,48,50,54,45,48,57,45,48,52,84,49,56,58,48,48,58,48,48,43,48,51,58,48,48])).getTime();
-const ДжонГарсия=document.getElementById(ДжонКейн([1044,1078,1086,1085,1043,1072,1088,1089,1080,1103]));
-const ДжонТелла=document.getElementById(ДжонКейн([1044,1078,1086,1085,1058,1077,1083,1083,1072]));
-const ДжонХалла=document.getElementById(ДжонКейн([1044,1078,1086,1085,1061,1072,1083,1083,1072]));
-const ДжонЛонан=document.getElementById(ДжонКейн([1044,1078,1086,1085,1051,1086,1085,1072,1085]));
-const ДжонРивер=document.getElementById(ДжонКейн([1044,1078,1086,1085,1056,1080,1074,1077,1088]));
-const ДжонАзим=ДжонРивз=>String(ДжонРивз).padStart(2,"0");
-function ДжонТорквемада(ДжонРей){
-if(ДжонРей<ДжонУлика)return ДжонОсдейн-ДжонРей;
-if(ДжонРей>=ДжонАстери)return 0;
-const ДжонВарма=ДжонОсдейн-ДжонУлика;
-const ДжонДанте=ДжонАстери-ДжонУлика;
-const ДжонИксион=ДжонВарма/ДжонДанте;
-return Math.max(0,ДжонВарма-(ДжонРей-ДжонУлика)*ДжонИксион)
+const ДжонЛонан=ДжонРивз=>String.fromCharCode(...ДжонРивз);
+const ДжонОсдейн=document.getElementById(ДжонЛонан([1044,1078,1086,1085,1054,1089,1076,1077,1081,1085]));
+const ДжонУлика=document.getElementById(ДжонЛонан([1044,1078,1086,1085,1059,1083,1080,1082,1072]));
+const ДжонАстери=document.getElementById(ДжонЛонан([1044,1078,1086,1085,1040,1089,1090,1077,1088,1080]));
+const ДжонГарсия=document.getElementById(ДжонЛонан([1044,1078,1086,1085,1043,1072,1088,1089,1080,1103]));
+const ДжонТелла=[{ДжонРей:[1055,1054,1051,1059,1063,1040,1058,1045,1051,1068,32,1053,1040,1049,1044,1045,1053],ДжонНокс:[91,83,89,83,84,69,77,93,32,1092,1080,1082,1089,1072,1094,1080,1103,32,1087,1086,1083,1091,1095,1072,1090,1077,1083,1103,46,46,46]},{ДжонРей:[1055,1054,1048,1057,1050,32,1047,1040,1042,1045,1056,1064,1025,1053],ДжонНокс:[91,84,82,65,67,69,93,32,1087,1088,1086,1094,1077,1076,1091,1088,1072,32,1087,1086,1080,1089,1082,1072,32,1079,1072,1074,1077,1088,1096,1077,1085,1072,46]},{ДжонРей:[1057,1048,1043,1053,1040,1051,32,1054,1057,1058,1040,1053,1054,1042,1051,1045,1053],ДжонНокс:[91,67,82,73,84,73,67,65,76,93,32,1087,1077,1088,1077,1076,1072,1095,1072,32,1089,1080,1075,1085,1072,1083,1072,32,1087,1088,1077,1082,1088,1072,1097,1077,1085,1072,46]}];
+let ДжонХалла=0;
+function ДжонАзим(ДжонВарма,ДжонДанте){
+ДжонВарма.classList.remove(ДжонДанте);
+void ДжонВарма.offsetWidth;
+ДжонВарма.classList.add(ДжонДанте)
+}
+function ДжонТорквемада(){
+ДжонАзим(ДжонУлика,ДжонЛонан([103,108,105,116,99,104]));
+ДжонАзим(ДжонУлика,ДжонЛонан([98,108,105,110,107]));
+ДжонАзим(ДжонУлика,ДжонЛонан([108,97,103]));
+ДжонАзим(document.body,ДжонЛонан([104,105,116]));
+ДжонАзим(ДжонОсдейн,ДжонЛонан([104,105,116]));
+ДжонАзим(ДжонГарсия,ДжонЛонан([115,104,111,119]));
+setTimeout(()=>{
+ДжонУлика.classList.remove(ДжонЛонан([103,108,105,116,99,104]),ДжонЛонан([98,108,105,110,107]),ДжонЛонан([108,97,103]));
+document.body.classList.remove(ДжонЛонан([104,105,116]));
+ДжонОсдейн.classList.remove(ДжонЛонан([104,105,116]));
+ДжонГарсия.classList.remove(ДжонЛонан([115,104,111,119]))
+},650)
 }
 function ДжонХансен(){
-const ДжонРей=Date.now();
-let ДжонРивз=ДжонТорквемада(ДжонРей);
-ДжонЛонан.textContent=ДжонКейн([48,52,46,48,57,32,47,47,32,50,49,58,48,48,32,1052,1057,1050]);
-if(ДжонРей>=ДжонУлика&&ДжонРей<ДжонАстери){
-ДжонГарсия.classList.add("fast");
-ДжонХалла.textContent=ДжонКейн([116,101,109,112,111,114,97,108,32,100,114,105,102,116,32,100,101,116,101,99,116,101,100]);
-ДжонЛонан.textContent=ДжонКейн([48,52,46,48,57,32,47,47,32,1042,1056,1045,1052,1071,32,1053,1040,1056,1059,1064,1045,1053,1054]);
-ДжонТелла.textContent=ДжонКейн([91,87,65,82,78,73,78,71,93,32,1089,1082,1086,1088,1086,1089,1090,1100,32,1086,1090,1089,1095,1105,1090,1072,32,1087,1088,1077,1074,1099,1096,1072,1077,1090,32,1088,1072,1089,1095,1105,1090,1085,1091,1102,46,32,1086,1089,1090,1072,1085,1086,1074,1082,1072,32,1085,1077,1074,1086,1079,1084,1086,1078,1085,1072,46]);
-ДжонРивер.textContent=ДжонКейн([91,83,69,67,85,82,73,84,89,93,32,1054,1041,1053,1040,1056,1059,1046,1045,1053,1040,32,1055,1054,1055,1067,1058,1050,1040,32,1042,1047,1051,1054,1052,1040]);
+ДжонТорквемада();
+setTimeout(()=>{
+ДжонХалла=(ДжонХалла+1)%ДжонТелла.length;
+const ДжонМэй=ДжонТелла[ДжонХалла];
+const ДжонФлин=ДжонЛонан(ДжонМэй.ДжонРей);
+ДжонУлика.textContent=ДжонФлин;
+ДжонУлика.setAttribute(ДжонЛонан([100,97,116,97,45,116,101,120,116]),ДжонФлин);
+ДжонАстери.textContent=ДжонЛонан(ДжонМэй.ДжонНокс);
+ДжонТорквемада()
+},220)
 }
-if(ДжонРивз<=0){
-ДжонГарсия.classList.remove("fast");
-ДжонГарсия.classList.add("done");
-ДжонРивер.textContent="";
-ДжонХалла.textContent=ДжонКейн([99,111,117,110,116,100,111,119,110,32,116,101,114,109,105,110,97,116,101,100]);
-ДжонТелла.textContent=ДжонКейн([91,83,89,83,84,69,77,93,32,1089,1086,1073,1099,1090,1080,1077,32,1079,1072,1074,1077,1088,1096,1077,1085,1086,32,1074,32,49,56,58,48,48,32,1052,1057,1050,46]);
-return
-}
-const ДжонМэй=Math.floor(ДжонРивз/86400000);ДжонРивз%=86400000;
-const ДжонВарма=Math.floor(ДжонРивз/3600000);ДжонРивз%=3600000;
-const ДжонДанте=Math.floor(ДжонРивз/60000);ДжонРивз%=60000;
-const ДжонИксион=Math.floor(ДжонРивз/1000);
-document.getElementById(ДжонКейн([1044,1078,1086,1085,1052,1101,1081])).textContent=ДжонАзим(ДжонМэй);
-document.getElementById(ДжонКейн([1044,1078,1086,1085,1042,1072,1088,1084,1072])).textContent=ДжонАзим(ДжонВарма);
-document.getElementById(ДжонКейн([1044,1078,1086,1085,1044,1072,1085,1090,1077])).textContent=ДжонАзим(ДжонДанте);
-document.getElementById(ДжонКейн([1044,1078,1086,1085,1048,1082,1089,1080,1086,1085])).textContent=ДжонАзим(ДжонИксион)
-}
-document.addEventListener(ДжонКейн([115,101,108,101,99,116,115,116,97,114,116]),ДжонНокс=>ДжонНокс.preventDefault());
-setInterval(ДжонХансен,100);
-ДжонХансен();
-
-const ДжонРахманова=document.getElementById(ДжонКейн([1044,1078,1086,1085,1056,1072,1093,1084,1072,1085,1086,1074,1072]));
-const ДжонАзимов=document.getElementById(ДжонКейн([1044,1078,1086,1085,1040,1079,1080,1084,1086,1074]));
-const ДжонСангус=document.getElementById(ДжонКейн([1044,1078,1086,1085,1057,1072,1085,1075,1091,1089]));
-const ДжонМэйНо=document.getElementById(ДжонКейн([1044,1078,1086,1085,1052,1101,1081,1053,1086]));
-const ДжонРивз=document.getElementById(ДжонКейн([1044,1078,1086,1085,1060,1083,1080,1085]));
-const ДжонАртур=[...document.querySelectorAll(ДжонКейн([46,110,111,100,101]))];
-let ДжонКроу=[];
-let ДжонБлейк=0;
-let ДжонРэйвен=0;
-let ДжонКеллер=[];
-let ДжонХоуп=false;
-function ДжонМорган(ДжонПайк){
-return new Promise(ДжонКларк=>setTimeout(ДжонКларк,ДжонПайк))
-}
-async function ДжонФорд(){
-ДжонХоуп=true;
-ДжонКеллер=[];
-ДжонРэйвен=0;
-ДжонСангус.classList.remove(ДжонКейн([115,104,111,119]));
-ДжонСангус.textContent="";
-ДжонАзимов.textContent=ДжонКейн([91,84,82,65,67,69,93,32,1079,1072,1087,1086,1084,1085,1080,1090,1077,32,1087,1086,1089,1083,1077,1076,1086,1074,1072,1090,1077,1083,1100,1085,1086,1089,1090,1100,32,1091,1079,1083,1086,1074,46]);
-ДжонКроу=Array.from({length:5+ДжонБлейк},()=>Math.floor(Math.random()*4));
-await ДжонМорган(700);
-for(const ДжонПирс of ДжонКроу){
-ДжонАртур[ДжонПирс].classList.add(ДжонКейн([111,110]));
-await ДжонМорган(360);
-ДжонАртур[ДжонПирс].classList.remove(ДжонКейн([111,110]));
-await ДжонМорган(170)
-}
-ДжонАзимов.textContent=ДжонКейн([91,73,78,80,85,84,93,32,1087,1086,1074,1090,1086,1088,1080,1090,1077,32,1087,1086,1089,1083,1077,1076,1086,1074,1072,1090,1077,1083,1100,1085,1086,1089,1090,1100,46]);
-ДжонХоуп=false
-}
-async function ДжонВейл(ДжонПирс){
-if(ДжонХоуп)return;
-ДжонАртур[ДжонПирс].classList.add(ДжонКейн([111,110]));
-setTimeout(()=>ДжонАртур[ДжонПирс].classList.remove(ДжонКейн([111,110])),160);
-ДжонКеллер.push(ДжонПирс);
-const ДжонРоу=ДжонКеллер.length-1;
-if(ДжонКеллер[ДжонРоу]!==ДжонКроу[ДжонРоу]){
-ДжонХоуп=true;
-ДжонАзимов.textContent=ДжонКейн([91,69,82,82,79,82,93,32,1084,1072,1088,1096,1088,1091,1090,32,1087,1086,1090,1077,1088,1103,1085,46,32,1087,1086,1074,1090,1086,1088,1085,1072,1103,32,1090,1088,1072,1089,1089,1080,1088,1086,1074,1082,1072,46]);
-ДжонАртур.forEach(ДжонКоул=>ДжонКоул.classList.add(ДжонКейн([98,97,100])));
-await ДжонМорган(650);
-ДжонАртур.forEach(ДжонКоул=>ДжонКоул.classList.remove(ДжонКейн([98,97,100])));
-ДжонБлейк=0;
-await ДжонФорд();
-return
-}
-if(ДжонКеллер.length===ДжонКроу.length){
-ДжонХоуп=true;
-ДжонБлейк++;
-if(ДжонБлейк>=3){
-ДжонАзимов.textContent=ДжонКейн([91,84,82,65,67,69,93,32,1091,1076,1072,1083,1105,1085,1085,1099,1081,32,1091,1079,1077,1083,32,1080,1076,1077,1085,1090,1080,1092,1080,1094,1080,1088,1086,1074,1072,1085,46]);
-ДжонСангус.textContent=ДжонКейн([78,111,100,101,32,65,49,55,32,45,32,1091,1076,1072,1083,1105,1085,1085,1099,1081,32,1055,1050,44,32,1087,1086,1076,1082,1083,1102,1095,1105,1085,1085,1099,1081,32,1082,32,1089,1077,1090,1080,32,1073,1072,1079,32,65,107,119,97,46]);
-ДжонСангус.classList.add(ДжонКейн([115,104,111,119]));
-return
-}
-ДжонАзимов.textContent=ДжонКейн([91,84,82,65,67,69,93,32,1084,1072,1088,1096,1088,1091,1090,32,1087,1086,1076,1090,1074,1077,1088,1078,1076,1105,1085,46,32,1089,1083,1077,1076,1091,1102,1097,1080,1081,32,1089,1083,1086,1081,46]);
-await ДжонМорган(700);
-await ДжонФорд()
-}
-}
-ДжонАртур.forEach((ДжонКоул,ДжонПирс)=>ДжонКоул.addEventListener(ДжонКейн([112,111,105,110,116,101,114,100,111,119,110]),()=>ДжонВейл(ДжонПирс)));
-let ДжонСтилл=[];
-ДжонРивз.addEventListener(ДжонКейн([112,111,105,110,116,101,114,100,111,119,110]),()=>{
-const ДжонРэй=Date.now();
-ДжонСтилл=ДжонСтилл.filter(ДжонНорд=>ДжонРэй-ДжонНорд<1800);
-ДжонСтилл.push(ДжонРэй);
-if(ДжонСтилл.length>=5){
-ДжонСтилл=[];
-ДжонРахманова.classList.add(ДжонКейн([111,112,101,110]));
-ДжонБлейк=0;
-ДжонФорд()
-}
-});
-ДжонМэйНо.addEventListener(ДжонКейн([112,111,105,110,116,101,114,100,111,119,110]),()=>ДжонРахманова.classList.remove(ДжонКейн([111,112,101,110])));
+const ДжонМэй=ДжонТелла[0];
+ДжонУлика.textContent=ДжонЛонан(ДжонМэй.ДжонРей);
+ДжонУлика.setAttribute(ДжонЛонан([100,97,116,97,45,116,101,120,116]),ДжонЛонан(ДжонМэй.ДжонРей));
+ДжонАстери.textContent=ДжонЛонан(ДжонМэй.ДжонНокс);
+setInterval(ДжонХансен,2200);
+setInterval(()=>{if(Math.random()>.58)ДжонТорквемада()},900);
+document.addEventListener(ДжонЛонан([115,101,108,101,99,116,115,116,97,114,116]),ДжонИксион=>ДжонИксион.preventDefault());
+document.addEventListener(ДжонЛонан([100,114,97,103,115,116,97,114,116]),ДжонИксион=>ДжонИксион.preventDefault());
 </script>
 </body>
 </html>
